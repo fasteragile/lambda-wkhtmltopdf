@@ -37,14 +37,23 @@ const S3 = new AWS.S3();
 // }
 exports.handler = function handler(event, context, callback) {
     if (!event.data) {
-        logger.log().error('unable to get the data');
-        callback('unable to get the data', {});
+        var error = 'unable to get the data';
+        logger.log().error(error);
+        callback(error, {});
+        return;
+    }
+
+    if (!event.bucket) {
+        var error = 'No s3 bucket specified';
+        logger.log().error(error);
+        callback(error, {});
         return;
     }
 
     const filename = `${(event.filename || Math.random().toString(36).slice(2))}.pdf`;
     const pageSize = event.pagesize || 'a4';
     const data = event.data;
+    const bucket = event.bucket;
 
     logger.log({ data, pageSize, filename }).info('Variables');
 
@@ -53,7 +62,7 @@ exports.handler = function handler(event, context, callback) {
 
     wkhtmltopdf(data, { pageSize }, () => {
         S3.putObject({
-            Bucket: config.bucket,
+            Bucket: bucket,
             Key: filename,
             Body: fs.createReadStream(output),
             ContentType: 'application/pdf',

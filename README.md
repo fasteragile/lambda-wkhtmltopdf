@@ -7,7 +7,8 @@ Convert HTML to PDF using wkhtmltopdf on AWS Lambda
 {
     "data" : "<h1>Claudemiro</h1>",
     "filename": "optional filename",
-    "pagesize": "optional pagesize default: a4"
+    "pagesize": "optional pagesize default: a4",
+    "bucket": "s3 bucket to use for output"
 }
 ```
 
@@ -21,11 +22,10 @@ Convert HTML to PDF using wkhtmltopdf on AWS Lambda
 
 ## Configuration
 
-1. Open `config.js` and set `bucket` variable to name of S3 bucket where you want function to save output PDF files.
-2. Make sure AWS Lambda function has `PutObject` access to S3 bucket
-3. Download the binary wkhtmltopdf for linux-x64 and put in the current directory
-4. Run npm install
-5. Zip everything and upload to aws-lambda
+1. Make sure AWS Lambda function has `PutObject` access to S3 bucket
+2. Download the binary wkhtmltopdf for linux-x64 and put in the current directory
+3. Run npm install
+4. Zip everything and upload to aws-lambda
 
 ## Links
 
